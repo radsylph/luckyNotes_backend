@@ -14,6 +14,10 @@ const noteSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
+    SerieId: {
+      type: String,
+      required: false,
+    },
   },
   {
     timestamps: true,

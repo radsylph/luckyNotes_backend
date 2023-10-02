@@ -6,10 +6,6 @@ const serieSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
-    noteId: {
-      type: String,
-      required: false,
-    },
     userId: {
       type: String,
       required: true,
