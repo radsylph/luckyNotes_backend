@@ -6,31 +6,42 @@ class SessionManager {
   constructor() {}
 
   async createUser(req, res) {
-    const { name, lastname, email, password } = req.body;
+    console.log(req.body);
+    try {
+      const { name, lastname, username, email, password } = req.body;
 
-    const ExisteUsuario = await Usuario.findOne({ emil: email }).exec();
+      const ExisteUsuario = await Usuario.findOne({ email: email }).exec();
 
-    if (ExisteUsuario) {
-      return res.status(400).json({
-        message: "El usuario ya existe",
+      if (ExisteUsuario) {
+        return res.status(400).json({
+          message: "El usuario ya existe",
+        });
+      }
+
+      const usuario = new Usuario({
+        name,
+        lastname,
+        email,
+        username,
+        password,
+        token: generateToken1(),
+        confirmado: false,
+      });
+
+      await usuario.save();
+
+      //aqui poner el email de registro
+
+      return res.status(201).json({
+        message: "Usuario creado",
+      });
+    } catch (error) {
+      console.log(error);
+      return res.status(500).json({
+        message: "Error al crear el usuario",
+        error: error,
       });
     }
-
-    const usuario = new Usuario({
-      name,
-      lastname,
-      email,
-      password,
-      token: generateToken1(),
-    });
-
-    await usuario.save();
-
-    //aqui poner el email de registro
-
-    return res.status(201).json({
-      message: "Usuario creado",
-    });
   }
 
   async verifyUse(req, res) {
@@ -128,3 +139,5 @@ class SessionManager {
     //destruir el token
   }
 }
+
+export { SessionManager };
