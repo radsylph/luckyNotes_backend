@@ -9,6 +9,7 @@ class SessionManager {
     console.log(req.body);
     try {
       const { name, lastname, username, email, password } = req.body;
+      console.log(req.body);
 
       const ExisteUsuario = await Usuario.findOne({ email: email }).exec();
 
@@ -34,6 +35,7 @@ class SessionManager {
 
       return res.status(201).json({
         message: "Usuario creado",
+        status: 201,
       });
     } catch (error) {
       console.log(error);

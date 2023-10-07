@@ -5,6 +5,7 @@ dotenv.config({ path: ".env" });
 import db from "./config/db.js";
 import Usuario from "./models/Usuario.js"; // Importa el modelo de usuario
 import router from "./routes/userRoutes.js"; // Importa las rutas de usuario
+import cors from "cors";
 
 const app = express();
 
@@ -13,7 +14,7 @@ const port = process.env.PORT;
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 app.use(express.json());
-
+app.use(cors);
 app.use(express.static("public"));
 app.use("/auth", router);
 
@@ -29,4 +30,4 @@ try {
   console.log(error);
 }
 
-app.listen(port, () => console.log(`Example app listening on port ${port}`));
+app.listen(port, () => console.log(`Example app listening on url ${port}!`));
