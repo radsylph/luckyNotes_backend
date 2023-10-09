@@ -18,6 +18,11 @@ app.use(cors());
 app.use(express.static("public"));
 app.use("/auth", router);
 
+app.set("view engine", "pug");
+app.set("views", "./views");
+
+app.use(express.static("public"));
+
 try {
   db.on("error", (err) => {
     console.error("Error de conexión a la base de datos:", err);
