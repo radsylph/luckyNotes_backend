@@ -1,11 +1,25 @@
 import { SessionManager } from "../components/SessionManager.js";
 const session = new SessionManager();
 
-const createUser = async (req, res) => {
-  await session.createUser(req, res);
+const createUser = (req, res) => {
+  session.createUser(req, res);
 };
 
 const createForm = (req, res) => {
-  return res.send("aqui va la vista para crear usuarios");
+  return res.json({
+    message: "Formulario de registro",
+    status: 200,
+  });
 };
-export { createUser, createForm };
+
+const confirmAccount = (req, res) => {
+  session.confirmAccount(req, res);
+};
+
+const testingpug = (req, res) => {
+  res.render("auth/confirm_account", {
+    title: "confirm your account",
+    pagina: "Your account is now confirmed",
+  });
+};
+export { createUser, createForm, confirmAccount, testingpug };
