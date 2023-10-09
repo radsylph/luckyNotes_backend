@@ -31,7 +31,7 @@ class SessionManager {
 
       await usuario.save();
 
-      //aqui poner el email de registro
+      
 
       return res.status(201).json({
         message: "Usuario creado",
