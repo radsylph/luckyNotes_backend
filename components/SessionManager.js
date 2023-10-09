@@ -1,6 +1,7 @@
 import Usuario from "../models/Usuario.js";
 import bcrypt from "bcrypt";
 import { generateToken1, generateJWT } from "../helpers/generateToken.js";
+import { emailRegistro } from "../helpers/mails.js";
 
 class SessionManager {
   constructor() {}
@@ -31,7 +32,11 @@ class SessionManager {
 
       await usuario.save();
 
-      
+      emailRegistro({
+        email: usuario.email,
+        nombre: usuario.name,
+        token: usuario.token,
+      });
 
       return res.status(201).json({
         message: "Usuario creado",
@@ -46,7 +51,7 @@ class SessionManager {
     }
   }
 
-  async verifyUse(req, res) {
+  async verifyUser(req, res) {
     const token = req.params;
     const usuario = await Usuario.findOne({ token: token }).exec();
 
@@ -56,8 +61,8 @@ class SessionManager {
       });
     }
 
-    usuario.confirmado = true;
     usuario.token = null;
+    usuario.confirmado = true;
     await usuario.save();
 
     return res.status(200).json({
