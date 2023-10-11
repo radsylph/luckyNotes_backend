@@ -6,6 +6,6 @@ block content
             span(class="font-normal text-indigo-500") Notes
         h2(class="text-center text-2xl font-bold")=pagina 
     div(class = "bg-white shadow py-8 px-4 rounded-lg max-w-md mx-auto")    
-        //- p(class= error ? 'bg-red-500 text-white' : 'bg-green-500 uppercase' ).py-2.px-5.rounded-lg.w-full.font-bold.border.border-black.text-center=mensaje
-        //- if !error
-        a(href="/auth/login" class="text-center font-bold text-sm text-slate-600 uppercase mt-10 block bg-indigo-400 hover:bg-black hover:text-white border border-black rounded") You can Log in
+        p(class= error ? 'bg-red-500 text-white' : 'bg-green-500 uppercase' ).py-2.px-5.rounded-lg.w-full.font-bold.border.border-black.text-center=mensaje
+        if !error
+            a(href="/auth/login" class="text-center font-bold text-sm text-slate-600 uppercase mt-10 block bg-indigo-400 hover:bg-black hover:text-white border border-black rounded") You can Log in
