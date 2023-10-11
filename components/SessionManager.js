@@ -52,13 +52,10 @@ class SessionManager {
   }
 
   async verifyUser(req, res) {
-    const token = req.params;
+    const { token } = req.params;
     const usuario = await Usuario.findOne({ token: token }).exec();
-
+    console.log(token);
     if (!usuario) {
-      res.status(400).json({
-        message: "El usuario no existe",
-      });
       return res.render("auth/confirm_account", {
         pagina: "Authentication error",
         mensaje:
