@@ -56,8 +56,14 @@ class SessionManager {
     const usuario = await Usuario.findOne({ token: token }).exec();
 
     if (!usuario) {
-      return res.status(400).json({
+      res.status(400).json({
         message: "El usuario no existe",
+      });
+      return res.render("auth/confirm_account", {
+        pagina: "Authentication error",
+        mensaje:
+          "There has been an error when trying to confirm your account, try again",
+        error: true,
       });
     }
 
@@ -65,8 +71,11 @@ class SessionManager {
     usuario.confirmado = true;
     await usuario.save();
 
-    return res.status(200).json({
-      message: "Usuario confirmado",
+    return res.render("auth/confirm_account", {
+      pagina: "Account confirmed",
+      mensaje:
+        "Your account has been successfully confirmed, you can now log in !",
+      error: false,
     });
   }
 
