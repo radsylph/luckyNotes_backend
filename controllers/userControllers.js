@@ -13,7 +13,7 @@ const createForm = (req, res) => {
 };
 
 const confirmAccount = (req, res) => {
-  session.confirmAccount(req, res);
+  session.verifyUser(req, res);
 };
 
 const testingpug = (req, res) => {

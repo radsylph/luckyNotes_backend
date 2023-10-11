@@ -23,9 +23,7 @@ const emailRegistro = async (datos) => {
       subject: "Confirm your account",
       html: `Hi ${nombre}, your account is almost ready to be created</p>
       <p>you just need to verify your account using the next link:
-      <a href="${process.env.BACKEND_URL}:${
-        process.env.PORT ?? 3000
-      }/auth/confirmar/${token}">Verify your account</a></p>
+      <a href="${process.env.BACKEND_URL}/auth/confirmar/${token}">Verify your account</a></p>
       <p>if you didnt create this account, pls dont pay attention to this message</p>`,
     });
   } catch (error) {

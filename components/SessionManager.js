@@ -38,9 +38,9 @@ class SessionManager {
         token: usuario.token,
       });
 
-      return res.status(201).json({
+      return res.status(200).json({
         message: "Usuario creado",
-        status: 201,
+        status: 200,
       });
     } catch (error) {
       console.log(error);
