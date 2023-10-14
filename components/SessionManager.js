@@ -1,7 +1,7 @@
 import Usuario from "../models/Usuario.js";
 import bcrypt from "bcrypt";
 import { generateToken1, generateJWT } from "../helpers/generateToken.js";
-import { emailRegistro } from "../helpers/mails.js";
+import { emailRegistro, emailReset } from "../helpers/mails.js";
 import { check, validationResult } from "express-validator";
 
 class SessionManager {
@@ -109,17 +109,58 @@ class SessionManager {
 
   async resetPassword(req, res) {
     const { email } = req.body;
+    await check("email")
+      .notEmpty()
+      .withMessage("Email is required")
+      .isEmail()
+      .withMessage("Email is not valid")
+      .run(req);
+
+    let result = validationResult(req);
+    // if (!result.isEmpty()) {
+    //   return res.status(400).json({
+    //     message: "Error al crear el usuario",
+    //     errors: result.array(),
+    //   });
+    // }
+
+    if (!result.isEmpty()) {
+      return res.render("auth/reset_password", {
+        pagina: "Reset Password",
+        errores: result.array(),
+        usuario: {
+          email: email,
+        },
+      });
+    }
 
     const usuario = await Usuario.findOne({ email: email }).exec();
     if (!usuario) {
-      return res.status(400).json({
-        message: "El usuario no existe",
+      return res.render("auth/reset_password", {
+        pagina: "Reset Password",
+        serrores: [
+          {
+            msg: "The email is not registered",
+          },
+        ],
+        usuario: {
+          email: email,
+        },
       });
     }
 
     usuario.token = generateToken1();
     await usuario.save();
-    //enviar mail para resettear password
+    emailReset({
+      email: usuario.email,
+      nombre: usuario.name,
+      token: usuario.token,
+    });
+
+    res.render("templates/mensajes", {
+      pagina: "Reset Password",
+      mensaje: "we have send a mail to your email",
+    });
   }
 
   async checkResetPassword(req, res) {
@@ -127,17 +168,40 @@ class SessionManager {
     const usuario = await Usuario.findOne({ token: token }).exec();
 
     if (!usuario) {
-      return res.status(400).json({
-        message: "El usuario no existe",
+      return res.render("auth/reset_password", {
+        pagina: "Reset Password",
+        serrores: [
+          {
+            msg: "The email is not registered",
+          },
+        ],
+        usuario: {
+          email: email,
+        },
       });
     }
 
-    //retorno el formulario para cambiar la contrase;a o no se
+    res.render("auth/set_new_password", {
+      pagina: "Set new password",
+      usuario: {
+        token: token,
+      },
+    });
   }
 
   async verifyNewPassword(req, res) {
     const { token } = req.params;
     const { password } = req.body;
+    await check("password")
+      .isLength({ min: 6 })
+      .withMessage("Password must be at least 6 characters long")
+      .notEmpty()
+      .withMessage("Password is required")
+      .run(req);
+    await check("repeat_password")
+      .equals(password)
+      .withMessage("the passwords doesn't match")
+      .run(req);
 
     const usuario = await Usuario.findOne({ token: token }).exec();
     const salt = await bcrypt.genSalt(10);
