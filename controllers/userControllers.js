@@ -22,4 +22,34 @@ const testingpug = (req, res) => {
     pagina: "Your account is now confirmed",
   });
 };
-export { createUser, createForm, confirmAccount, testingpug };
+
+const formReset = (req, res) => {
+  res.render("auth/reset_password", {
+    title: "Reset your password",
+    pagina: "Reset your password",
+  });
+};
+
+const resetPassword = (req, res) => {
+  session.resetPassword(req, res);
+};
+
+const newPassword = (req, res) => {
+  session.verifyNewPassword(req, res);
+};
+
+const verifyPassword = (req, res) => {
+  session.checkResetPassword(req, res);
+};
+
+export {
+  createUser,
+  createForm,
+  confirmAccount,
+  testingpug,
+  resetPassword,
+  formReset,
+  resetPassword,
+  newPassword,
+  verifyPassword, 
+};
