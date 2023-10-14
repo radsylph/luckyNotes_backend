@@ -4,7 +4,6 @@ import {
   createForm,
   confirmAccount,
   testingpug,
-  resetPassword,
   formReset,
   resetPassword,
   newPassword,

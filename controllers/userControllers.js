@@ -49,7 +49,6 @@ export {
   testingpug,
   resetPassword,
   formReset,
-  resetPassword,
   newPassword,
-  verifyPassword, 
+  verifyPassword,
 };
