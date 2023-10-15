@@ -275,7 +275,16 @@ class SessionManager {
     }
     if (!usuario.confirmado) {
       return res.status(400).json({
-        error: ["the user is not confirmed"],
+        message: "there was these errors",
+        error: [
+          {
+            type: "field",
+            value: user_info,
+            msg: "the user isn't confirmed",
+            path: "user_info",
+            location: "body",
+          },
+        ],
       });
     }
 
@@ -283,7 +292,16 @@ class SessionManager {
     console.log(passwordMatch);
     if (!passwordMatch) {
       return res.status(400).json({
-        error: ["Incorrect password"],
+        message: "there was these errors",
+        error: [
+          {
+            type: "field",
+            value: password,
+            msg: "the password is incorrect",
+            path: "password",
+            location: "body",
+          },
+        ],
       });
     }
 
