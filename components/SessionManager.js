@@ -3,6 +3,7 @@ import bcrypt from "bcrypt";
 import { generateToken1, generateJWT } from "../helpers/generateToken.js";
 import { emailRegistro, emailReset } from "../helpers/mails.js";
 import { check, validationResult } from "express-validator";
+import verifyPassword from "../helpers/passtest.js";
 
 class SessionManager {
   constructor() {}
@@ -164,28 +165,22 @@ class SessionManager {
   }
 
   async checkResetPassword(req, res) {
-    const token = req.params;
+    const { token } = req.params;
     const usuario = await Usuario.findOne({ token: token }).exec();
 
     if (!usuario) {
       return res.render("auth/reset_password", {
         pagina: "Reset Password",
-        serrores: [
+        errores: [
           {
             msg: "The email is not registered",
           },
         ],
-        usuario: {
-          email: email,
-        },
       });
     }
 
     res.render("auth/set_new_password", {
       pagina: "Set new password",
-      usuario: {
-        token: token,
-      },
     });
   }
 
@@ -203,9 +198,18 @@ class SessionManager {
       .withMessage("the passwords doesn't match")
       .run(req);
 
+    let result = validationResult(req);
+    if (!result.isEmpty()) {
+      return res.render("auth/set_new_password", {
+        pagina: "Set new password",
+        errores: result.array(),
+      });
+    }
+
     const usuario = await Usuario.findOne({ token: token }).exec();
-    const salt = await bcrypt.genSalt(10);
-    usuario.password = await bcrypt.hash(password, salt);
+    // const salt = await bcrypt.genSalt(10);
+    // usuario.password = await bcrypt.hash(password, salt); //we encrypt the password
+    usuario.password = password;
     usuario.token = null;
     await usuario.save();
     return res.status(200).json({
@@ -214,32 +218,69 @@ class SessionManager {
   }
 
   async loginVerify(req, res) {
-    //validations for the front
+    await check("email")
+      .notEmpty()
+      .withMessage("Email is required")
+      .isEmail()
+      .withMessage("Email is not valid")
+      .run(req);
+    await check("password")
+      .notEmpty()
+      .withMessage("Password is required")
+      .run(req);
+    let result = validationResult(req);
+    if (!result.isEmpty()) {
+      return res.status(400).json({
+        message: "Error al crear el usuario",
+        error: result.array(),
+      });
+    }
   }
 
   async login(req, res) {
-    const { email, password, username } = req.body;
-    const usuario = await Usuario.findOne({ email: email }).exec();
-    const usuario2 = await Usuario.findOne({ username: username }).exec();
-    if (!usuario || !usuario2) {
+    const { email, password } = req.body;
+    await check("email")
+      .notEmpty()
+      .withMessage("Email is required")
+      .isEmail()
+      .withMessage("Email is not valid")
+      .run(req);
+    await check("password")
+      .notEmpty()
+      .withMessage("Password is required")
+      .run(req);
+
+    let result = validationResult(req);
+    if (!result.isEmpty()) {
       return res.status(400).json({
-        message: "El usuario no existe",
+        message: "there was these errors",
+        error: result.array(),
+      });
+    }
+    const usuario = await Usuario.findOne({ email: email }).exec();
+    if (!usuario) {
+      return res.status(400).json({
+        message: "the user does not exist",
       });
     }
     if (!usuario.confirmado) {
       return res.status(400).json({
-        message: "El usuario no esta confirmado",
+        message: "the user is not confirmed",
       });
     }
-    if (!usuario.verificarPassword(password)) {
+
+    const passwordMatch = await verifyPassword(password, email);
+    console.log(passwordMatch);
+    if (!passwordMatch) {
       return res.status(400).json({
-        message: "Contraseña incorrecta",
+        message: "Incorrect password",
       });
     }
-    //const token = generateJWT(usuario.id); //revisar como se genera el token con el id de mongo
+
+    // const token = generateJWT(usuario.id);
     return res.status(200).json({
       message: "Usuario logeado",
-      //token: token,
+      // token: token,
     });
   }
 
