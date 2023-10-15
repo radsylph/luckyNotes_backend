@@ -261,7 +261,16 @@ class SessionManager {
 
     if (!usuario) {
       return res.status(400).json({
-        error: ["the user does not exist"],
+        message: "there was these errors",
+        error: [
+          {
+            type: "field",
+            value: "",
+            msg: "the user doesn't exist",
+            path: "user_info",
+            location: "body",
+          },
+        ],
       });
     }
     if (!usuario.confirmado) {
