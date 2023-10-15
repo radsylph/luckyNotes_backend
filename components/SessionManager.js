@@ -258,14 +258,15 @@ class SessionManager {
     const usuario = await Usuario.findOne({
       $or: [{ email: user_info }, { username: user_info }],
     }).exec();
+
     if (!usuario) {
       return res.status(400).json({
-        message: "the user does not exist",
+        error: ["the user does not exist"],
       });
     }
     if (!usuario.confirmado) {
       return res.status(400).json({
-        message: "the user is not confirmed",
+        error: ["the user is not confirmed"],
       });
     }
 
@@ -273,7 +274,7 @@ class SessionManager {
     console.log(passwordMatch);
     if (!passwordMatch) {
       return res.status(400).json({
-        message: "Incorrect password",
+        error: ["Incorrect password"],
       });
     }
 
