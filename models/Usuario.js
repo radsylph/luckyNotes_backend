@@ -41,12 +41,10 @@ const usuarioSchema = new mongoose.Schema(
   }
 );
 
-// Middleware para cifrar la contraseña antes de guardar en la base de datos
 usuarioSchema.pre("save", async function (next) {
   if (!this.isModified("password")) {
     return next();
   }
-
   const salt = await bcrypt.genSalt(10);
   this.password = await bcrypt.hash(this.password, salt);
   next();
@@ -54,7 +52,9 @@ usuarioSchema.pre("save", async function (next) {
 
 // Método para verificar la contraseña
 usuarioSchema.methods.verificarPassword = async function (password) {
-  return await bcrypt.compare(password, this.password);
+  const result = await bcrypt.compare(password, this.password);
+  console.log(result); // log the result of the bcrypt.compare method to check if it is true or false
+  return result;
 };
 
 const Usuario = mongoose.model("Usuario", usuarioSchema);
