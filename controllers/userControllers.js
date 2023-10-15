@@ -16,6 +16,11 @@ const confirmAccount = (req, res) => {
   session.verifyUser(req, res);
 };
 
+const login = (req, res) => {
+  // session.loginVerify(req, res);
+  session.login(req, res);
+};
+
 const testingpug = (req, res) => {
   res.render("auth/confirm_account", {
     title: "confirm your account",
@@ -51,4 +56,5 @@ export {
   formReset,
   newPassword,
   verifyPassword,
+  login,
 };
