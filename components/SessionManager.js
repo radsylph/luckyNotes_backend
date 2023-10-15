@@ -35,7 +35,7 @@ class SessionManager {
     if (!result.isEmpty()) {
       return res.status(400).json({
         message: "Error al crear el usuario",
-        error: result.array(),
+        errors: result.array(),
       });
     }
 
@@ -238,12 +238,10 @@ class SessionManager {
   }
 
   async login(req, res) {
-    const { email, password } = req.body;
-    await check("email")
+    const { user_info, password } = req.body;
+    await check("user_info")
       .notEmpty()
-      .withMessage("Email is required")
-      .isEmail()
-      .withMessage("Email is not valid")
+      .withMessage("Email or username is required")
       .run(req);
     await check("password")
       .notEmpty()
@@ -257,7 +255,9 @@ class SessionManager {
         error: result.array(),
       });
     }
-    const usuario = await Usuario.findOne({ email: email }).exec();
+    const usuario = await Usuario.findOne({
+      $or: [{ email: user_info }, { username: user_info }],
+    }).exec();
     if (!usuario) {
       return res.status(400).json({
         message: "the user does not exist",
@@ -269,7 +269,7 @@ class SessionManager {
       });
     }
 
-    const passwordMatch = await verifyPassword(password, email);
+    const passwordMatch = await verifyPassword(password, user_info);
     console.log(passwordMatch);
     if (!passwordMatch) {
       return res.status(400).json({
