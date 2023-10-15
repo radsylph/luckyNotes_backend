@@ -1,14 +1,16 @@
 import Usuario from "../models/Usuario.js";
 import bcrypt from "bcrypt";
 
-const verifyPassword = async (password, email) => {
-  const usuario = await Usuario.findOne({ email: email }).exec();
-  console.log(usuario); // log the usuario object to check if the password property is set correctly
+const verifyPassword = async (password, user_info) => {
+  const usuario = await Usuario.findOne({
+    $or: [{ email: user_info }, { username: user_info }],
+  }).exec();
+  console.log(usuario); 
   if (!usuario) {
     return false;
   }
   const result = await bcrypt.compare(password, usuario.password);
-  console.log(result); // log the result of the bcrypt.compare method to check if it is true or false
+  console.log(result); 
   return result;
 };
 
