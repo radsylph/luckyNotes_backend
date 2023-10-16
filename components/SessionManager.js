@@ -85,18 +85,26 @@ class SessionManager {
       });
 
       return res.status(200).json({
-        message: "Usuario creado",
-        status: 200,
-      });
-    } catch (error) {
-      console.log(error);
-      return res.status(500).json({
-        message: "there was these errors",
+        message: "User created",
         error: [
           {
             type: "server",
             value: "",
-            msg: "there was an error in the server",
+            msg: "User created",
+            path: "",
+            location: "",
+          },
+        ],
+      });
+    } catch (error) {
+      console.log(error);
+      return res.status(500).json({
+        message: "User not created",
+        error: [
+          {
+            type: "server",
+            value: "",
+            msg: "there was an error when creating the user",
             path: "",
             location: "",
           },
