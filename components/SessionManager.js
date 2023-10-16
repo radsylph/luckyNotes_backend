@@ -58,7 +58,7 @@ class SessionManager {
         return res.status(400).json([
           {
             message: "there was these errors",
-            error: [
+            errors: [
               {
                 type: "field",
                 value: username,
@@ -75,7 +75,7 @@ class SessionManager {
         return res.status(400).json([
           {
             message: "there was these errors",
-            error: [
+            errors: [
               {
                 type: "field",
                 value: email,
