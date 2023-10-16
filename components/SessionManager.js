@@ -55,29 +55,33 @@ class SessionManager {
       }).exec();
 
       if (existeUsername) {
-        return res.status(400).json({
-          message: "there was these errors",
-          errors: {
-            type: "field",
-            value: username,
-            msg: "the username is already registered",
-            path: "username",
-            location: "body",
+        return res.status(400).json([
+          {
+            message: "there was these errors",
+            errors: {
+              type: "field",
+              value: username,
+              msg: "the username is already registered",
+              path: "username",
+              location: "body",
+            },
           },
-        });
+        ]);
       }
 
       if (ExisteUsuario) {
-        return res.status(400).json({
-          message: "there was these errors",
-          errors: {
-            type: "field",
-            value: email,
-            msg: "the email is already registered",
-            path: "email",
-            location: "body",
+        return res.status(400).json([
+          {
+            message: "there was these errors",
+            errors: {
+              type: "field",
+              value: email,
+              msg: "the email is already registered",
+              path: "email",
+              location: "body",
+            },
           },
-        });
+        ]);
       }
 
       const usuario = new Usuario({
