@@ -49,7 +49,7 @@ const emailReset = async (datos) => {
       subject: "Reset your password",
       html: `Hi ${nombre}, this is your email confirmation to rest your password</p>
       <p>you just need to verify your account using the next link:
-      <a href="${process.env.BACKEND_URL}/auth/reset_password/${token}}">Reset your password</a></p>
+      <a href="${process.env.BACKEND_URL}/auth/reset_password/${token}">Reset your password</a></p>
       <p>if you didnt create this account, pls dont pay attention to this message</p>`,
     });
   } catch (error) {
