@@ -177,7 +177,7 @@ class SessionManager {
       token: usuario.token,
     });
 
-    return res.response(200).json({
+    return res.status(200).json({
       message: "we have send an mail to your email",
     });
 
