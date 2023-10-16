@@ -53,7 +53,16 @@ class SessionManager {
 
       if (ExisteUsuario) {
         return res.status(400).json({
-          message: "El usuario ya existe",
+          message: "there was these errors",
+          error: [
+            {
+              type: "field",
+              value: email,
+              msg: "the email is already registered",
+              path: "email",
+              location: "body",
+            },
+          ],
         });
       }
 
@@ -82,8 +91,16 @@ class SessionManager {
     } catch (error) {
       console.log(error);
       return res.status(500).json({
-        message: "Error al crear el usuario",
-        error: error,
+        message: "there was these errors",
+        error: [
+          {
+            type: "server",
+            value: "",
+            msg: "there was an error in the server",
+            path: "",
+            location: "",
+          },
+        ],
       });
     }
   }
