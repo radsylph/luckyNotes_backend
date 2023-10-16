@@ -50,6 +50,24 @@ class SessionManager {
       console.log(req.body);
 
       const ExisteUsuario = await Usuario.findOne({ email: email }).exec();
+      const existeUsername = await Usuario.findOne({
+        username: username,
+      }).exec();
+
+      if (existeUsername) {
+        return res.status(400).json({
+          message: "there was these errors",
+          error: [
+            {
+              type: "field",
+              value: username,
+              msg: "the username is already registered",
+              path: "username",
+              location: "body",
+            },
+          ],
+        });
+      }
 
       if (ExisteUsuario) {
         return res.status(400).json({
