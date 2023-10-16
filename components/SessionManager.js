@@ -123,35 +123,49 @@ class SessionManager {
       .run(req);
 
     let result = validationResult(req);
-    // if (!result.isEmpty()) {
-    //   return res.status(400).json({
-    //     message: "Error al crear el usuario",
-    //     errors: result.array(),
-    //   });
-    // }
-
     if (!result.isEmpty()) {
-      return res.render("auth/reset_password", {
-        pagina: "Reset Password",
-        errores: result.array(),
-        usuario: {
-          email: email,
-        },
+      return res.status(400).json({
+        message: "Error al crear el usuario",
+        errors: result.array(),
       });
     }
 
+    // if (!result.isEmpty()) {
+    //   return res.render("auth/reset_password", {
+    //     pagina: "Reset Password",
+    //     errores: result.array(),
+    //     usuario: {
+    //       email: email,
+    //     },
+    //   });
+    // }
+
     const usuario = await Usuario.findOne({ email: email }).exec();
+    // if (!usuario) {
+    //   return res.render("auth/reset_password", {
+    //     pagina: "Reset Password",
+    //     serrores: [
+    //       {
+    //         msg: "The email is not registered",
+    //       },
+    //     ],
+    //     usuario: {
+    //       email: email,
+    //     },
+    //   });
+    // }
     if (!usuario) {
-      return res.render("auth/reset_password", {
-        pagina: "Reset Password",
-        serrores: [
+      return res.status(400).json({
+        message: "there was these errors",
+        error: [
           {
-            msg: "The email is not registered",
+            type: "field",
+            value: email,
+            msg: "the email is not registered",
+            path: "email",
+            location: "body",
           },
         ],
-        usuario: {
-          email: email,
-        },
       });
     }
 
@@ -163,10 +177,14 @@ class SessionManager {
       token: usuario.token,
     });
 
-    res.render("templates/mensajes", {
-      pagina: "Reset Password",
-      mensaje: "we have send a mail to your email",
+    return res.response(200).json({
+      message: "we have send an mail to your email",
     });
+
+    // res.render("templates/mensajes", {
+    //   pagina: "Reset Password",
+    //   mensaje: "we have send a mail to your email",
+    // });
   }
 
   async checkResetPassword(req, res) {
