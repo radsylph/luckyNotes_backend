@@ -5,6 +5,13 @@ import { check, validationResult } from "express-validator";
 class NoteManager {
   constructor() {}
 
+  async getUserInfo(req, res) {
+    const { token } = req.body;
+    const decoded = jwt.verify(token, process.env.SECRET);
+    const user = await Usuario.findById(decoded.id);
+    console.log(user);
+  }
+
   async createNote(req, res) {
     await check("title")
       .notEmpty()
