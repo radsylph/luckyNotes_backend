@@ -10,12 +10,20 @@ const noteSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
-    userId: {
+    owner: {
       type: String,
       required: true,
     },
     SerieId: {
       type: String,
+      required: false,
+    },
+    favorite: {
+      type: Boolean,
+      required: false,
+    },
+    trash: {
+      type: Boolean,
       required: false,
     },
   },
