@@ -4,7 +4,8 @@ import dotenv from "dotenv";
 dotenv.config({ path: ".env" });
 import db from "./config/db.js";
 import Usuario from "./models/Usuario.js"; // Importa el modelo de usuario
-import router from "./routes/userRoutes.js"; // Importa las rutas de usuario
+import userrouter from "./routes/userRoutes.js"; // Importa las rutas de usuario
+import noterouter from "./routes/noteRoutes.js"; // Importa las rutas de notas
 import cors from "cors";
 
 const app = express();
@@ -16,7 +17,9 @@ app.use(cookieParser());
 app.use(express.json());
 app.use(cors());
 app.use(express.static("public"));
-app.use("/auth", router);
+
+app.use("/auth", userrouter);
+app.use("/note", noterouter);
 
 app.set("view engine", "pug");
 app.set("views", "./views");
