@@ -1,11 +1,6 @@
 import Usuario from "../models/Usuario.js";
 import bcrypt from "bcrypt";
-import {
-  generateToken1,
-  generateJWT,
-  storeToken,
-  removeToken,
-} from "../helpers/generateToken.js";
+import { generateToken1, generateJWT } from "../helpers/generateToken.js";
 import { emailRegistro, emailReset } from "../helpers/mails.js";
 import { check, validationResult } from "express-validator";
 import verifyPassword from "../helpers/passtest.js";
@@ -383,7 +378,6 @@ class SessionManager {
   }
 
   closeSession(req, res) {
-    removeToken();
     return res.status(200).json({
       message: "Sesion cerrada",
     });
