@@ -67,13 +67,13 @@ class NoteManager {
   async createNote(req, res) {
     await check("title")
       .notEmpty()
-      .withMessage("The title is required")
-      .isLength({ max: 80 })
+      .withMessage("Title is required")
+      .isLength({ max: 300 })
       .withMessage("The title is too long")
       .run(req);
     await check("content")
       .notEmpty()
-      .withMessage("the content is required")
+      .withMessage("Content is required")
       .run(req);
     let result = validationResult(req);
     if (!result.isEmpty()) {
@@ -83,22 +83,24 @@ class NoteManager {
       });
     }
     const { title, content, SerieId, favorite, trash } = req.body;
-    const serie = await Serie.findOne({ Name: SerieId });
-    if (!serie) {
-      return res.status(404).json({
-        message: "Serie not found",
-        status: 404,
-      });
-    }
-    if (req.user._id != serie.owner) {
-      return res.status(403).json({
-        message: "You are not authorized to edit this serie",
-        status: 403,
-      });
+    const { owner } = req.user._id;
+    if (SerieId) {
+      const serie = await Serie.findOne({ Name: SerieId });
+      if (!serie) {
+        return res.status(404).json({
+          message: "Serie not found",
+          status: 404,
+        });
+      }
+      if (req.user._id != serie.owner) {
+        return res.status(403).json({
+          message: "You are not authorized to edit this serie",
+          status: 403,
+        });
+      }
     }
 
     try {
-      //que busque primero el nombre de la carpeta y si no existe que la cree
       const note = new Note({
         title,
         content,
@@ -153,6 +155,22 @@ class NoteManager {
     const { title, content, SerieId, favorite, trash } = req.body;
 
     try {
+      if (SerieId) {
+        const serie = await Serie.findOne({ Name: SerieId });
+        if (!serie) {
+          return res.status(404).json({
+            message: "Serie not found",
+            status: 404,
+          });
+        }
+        if (req.user._id != serie.owner) {
+          return res.status(403).json({
+            message: "You are not authorized to edit this serie",
+            status: 403,
+          });
+        }
+      }
+
       const note = await Note.findOneAndUpdate(
         { _id: id, owner: req.user._id },
         { title, content, SerieId, favorite, trash },
@@ -170,7 +188,6 @@ class NoteManager {
           status: 403,
         });
       }
-
       await note.save();
       return res.status(200).json({
         message: "Note updated",
