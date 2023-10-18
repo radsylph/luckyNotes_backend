@@ -8,6 +8,9 @@ import {
   userInfo,
   showNotes,
   showFavNotes,
+  createSerie,
+  addNoteToSerie,
+  showSerieNotes,
 } from "../controllers/noteControllers.js";
 
 const router = Express.Router();
@@ -16,5 +19,8 @@ router.route("/create_note").post(getUserInfo, createNote);
 router.route("/edit_note/:id").post(getUserInfo, editNote);
 router.route("/user").post(getUserInfo, showNotes);
 router.route("/Fav").post(getUserInfo, showFavNotes);
+router.route("/create_series").post(getUserInfo, createSerie);
+router.route("/addNote/:id").post(getUserInfo, addNoteToSerie);
+router.route("/series/:id").post(getUserInfo, showSerieNotes);
 
 export default router;
