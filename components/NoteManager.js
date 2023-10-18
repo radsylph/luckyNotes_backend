@@ -65,10 +65,15 @@ class NoteManager {
   }
 
   async createNote(req, res) {
-    await check("title").notEmpty().withMessage("Name is required").run(req);
+    await check("title")
+      .notEmpty()
+      .withMessage("The title is required")
+      .isLength({ max: 80 })
+      .withMessage("The title is too long")
+      .run(req);
     await check("content")
       .notEmpty()
-      .withMessage("Lastname is required")
+      .withMessage("the content is required")
       .run(req);
     let result = validationResult(req);
     if (!result.isEmpty()) {

@@ -10,6 +10,7 @@ import {
   verifyPassword,
   login,
 } from "../controllers/userControllers.js";
+import getUserInfo from "../middlewares/ProtectRutes.js";
 
 const router = Express.Router();
 
