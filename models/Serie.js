@@ -2,11 +2,15 @@ import mongoose from "mongoose";
 
 const serieSchema = new mongoose.Schema(
   {
-    title: {
+    Name: {
       type: String,
       required: true,
     },
-    userId: {
+    Description: {
+      type: String,
+      required: true,
+    },
+    owner: {
       type: String,
       required: true,
     },
