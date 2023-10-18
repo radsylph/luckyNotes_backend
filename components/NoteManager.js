@@ -65,15 +65,10 @@ class NoteManager {
   }
 
   async createNote(req, res) {
-    await check("title")
-      .notEmpty()
-      .withMessage("Title is required")
-      .isLength({ max: 300 })
-      .withMessage("The title is to long")
-      .run(req);
+    await check("title").notEmpty().withMessage("Name is required").run(req);
     await check("content")
       .notEmpty()
-      .withMessage("Content is required")
+      .withMessage("Lastname is required")
       .run(req);
     let result = validationResult(req);
     if (!result.isEmpty()) {
@@ -83,7 +78,6 @@ class NoteManager {
       });
     }
     const { title, content, SerieId, favorite, trash } = req.body;
-    const { owner } = req.user._id;
     const serie = await Serie.findOne({ Name: SerieId });
     if (!serie) {
       return res.status(404).json({
