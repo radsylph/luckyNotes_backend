@@ -75,11 +75,11 @@ class NoteManager {
       .notEmpty()
       .withMessage("Content is required")
       .run(req);
-    const errors = validationResult(req);
-    if (!errors.isEmpty()) {
+    let result = validationResult(req);
+    if (!result.isEmpty()) {
       return res.status(400).json({
-        message: "you have the following errors",
-        errors: errors.array(),
+        message: "you have these errors",
+        errors: result.array(),
       });
     }
     const { title, content, SerieId, favorite, trash } = req.body;

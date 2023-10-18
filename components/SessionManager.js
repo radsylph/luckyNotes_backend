@@ -35,7 +35,7 @@ class SessionManager {
     let result = validationResult(req);
     if (!result.isEmpty()) {
       return res.status(400).json({
-        message: "Error al crear el usuario",
+        message: "you have these errors",
         errors: result.array(),
       });
     }
