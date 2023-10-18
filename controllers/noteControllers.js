@@ -26,4 +26,26 @@ const showFavNotes = (req, res) => {
   note.showFavNotes(req, res);
 };
 
-export { test2, userInfo, editNote, createNote, showNotes, showFavNotes };
+const createSerie = (req, res) => {
+  note.createSerie(req, res);
+};
+
+const addNoteToSerie = (req, res) => {
+  note.addNoteToSerie(req, res);
+};
+
+const showSerieNotes = (req, res) => {
+  note.showSerieNotes(req, res);
+};
+
+export {
+  test2,
+  userInfo,
+  editNote,
+  createNote,
+  showNotes,
+  showFavNotes,
+  createSerie,
+  addNoteToSerie,
+  showSerieNotes,
+};
