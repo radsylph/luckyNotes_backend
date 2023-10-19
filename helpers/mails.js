@@ -4,13 +4,20 @@ import dotenv from "dotenv";
 dotenv.config({ path: ".env" });
 
 const emailRegistro = async (datos) => {
-  var transport = nodemailer.createTransport({
-    host: process.env.EMAIL_HOST,
-    port: process.env.EMAIL_PORT,
-    auth: {
-      user: process.env.EMAIL_HOST_USER,
-      pass: process.env.EMAIL_HOST_PASSWORD,
-    },
+  // var transport = nodemailer.createTransport({
+  //   host: process.env.EMAIL_HOST,
+  //   port: process.env.EMAIL_PORT,
+  //   auth: {
+  //     user: process.env.EMAIL_HOST_USER,
+  //     pass: process.env.EMAIL_HOST_PASSWORD,
+  //   },
+  // });
+
+  const transport = nodemailer.createTransport({
+    service: "gmail",
+    auth: {},
+    user: process.env.APP_USER,
+    pass: process.env.APP_PASSWORD,
   });
 
   console.log(datos);
@@ -18,7 +25,7 @@ const emailRegistro = async (datos) => {
   const { email, nombre, token } = datos;
   try {
     await transport.sendMail({
-      from: "lo que sea",
+      from: process.env.APP_USER,
       to: email,
       subject: "Confirm your account",
       html: `Hi ${nombre}, your account is almost ready to be created</p>
