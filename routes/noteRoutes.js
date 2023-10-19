@@ -17,12 +17,12 @@ import {
 const router = Express.Router();
 
 router.route("/create_note").post(getUserInfo, createNote);
-router.route("/edit_note/:id").post(getUserInfo, editNote);
+router.route("/edit_note/:id").post(getUserInfo, editNote); //cambiar a put
 router.route("/user").get(getUserInfo, showNotes);
 router.route("/Fav").get(getUserInfo, showFavNotes);
 router.route("/create_series").post(getUserInfo, createSerie);
-router.route("/set_fav/:id").put(getUserInfo, setFavorite);
-router.route("/addNote/:id").post(getUserInfo, addNoteToSerie);
+router.route("/set_fav/:id").patch(getUserInfo, setFavorite);
+router.route("/addNote/:id").post(getUserInfo, addNoteToSerie); //cambiar a patch
 router.route("/series/:id").post(getUserInfo, showSerieNotes);
 
 export default router;
