@@ -81,7 +81,7 @@ class NoteManager {
   }
 
   async setFavorite(req, response) {
-    const { id } = req.body;
+    const { id } = req.params;
     try {
       const note = await Note.findOne({ _id: id, owner: req.user._id });
       if (!note) {
