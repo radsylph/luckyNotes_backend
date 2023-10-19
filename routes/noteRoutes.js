@@ -17,7 +17,7 @@ const router = Express.Router();
 
 router.route("/create_note").post(getUserInfo, createNote);
 router.route("/edit_note/:id").post(getUserInfo, editNote);
-router.route("/user").get(showNotes);
+router.route("/user").get(getUserInfo, showNotes);
 router.route("/Fav").post(getUserInfo, showFavNotes);
 router.route("/create_series").post(getUserInfo, createSerie);
 router.route("/addNote/:id").post(getUserInfo, addNoteToSerie);
