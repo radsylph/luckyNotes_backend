@@ -105,8 +105,8 @@ class NoteManager {
         title,
         content,
         SerieId,
-        favorite,
-        trash,
+        favorite: false,
+        trash: false,
         owner: req.user._id,
       });
       await note.save();
