@@ -8,62 +8,6 @@ import dotenv from "dotenv";
 class NoteManager {
   constructor() {}
 
-  // async getUserInfo(req, res) {
-  //   const { token } = req.body;
-
-  //   if (!token) {
-  //     return res.status(400).json({
-  //       message: "Token is required",
-  //       status: 400,
-  //     });
-  //   }
-  //   try {
-  //     const decoded = jwt.verify(token, process.env.JWT_SECRET);
-  //     console.log(decoded);
-  //     const user = await Usuario.findById(decoded.id);
-  //     console.log(user);
-  //     if (user) {
-  //       return res.status(200).json({
-  //         message: "User found",
-  //         status: 200,
-  //         user_info: {
-  //           name: user.name,
-  //           lastname: user.lastname,
-  //           username: user.username,
-  //           email: user.email,
-  //           id: user._id,
-  //         },
-  //       }); // Guarda el usuario en la petición
-  //     } else {
-  //       return res.status(400).json({
-  //         message: "User not found",
-  //         status: 400,
-  //       });
-  //     }
-  //   } catch (error) {
-  //     console.log(error);
-  //     return res.status(500).json({
-  //       message: "you have to login again",
-  //       status: 500,
-  //     });
-  //   }
-  // }
-
-  async test3(req, res) {
-    const user = req.user;
-    const id = req.user._id;
-    try {
-      res.status(200).json({
-        id,
-      });
-    } catch (error) {
-      res.status(500).json({
-        message: "you have to login again",
-        status: 500,
-      });
-    }
-  }
-
   async createNote(req, res) {
     await check("title")
       .notEmpty()
@@ -83,9 +27,8 @@ class NoteManager {
       });
     }
     const { title, content, SerieId } = req.body;
-    const favorite = false;
-    const trash = false;
     const { owner } = req.user._id;
+
     if (SerieId) {
       const serie = await Serie.findOne({ Name: SerieId });
       if (!serie) {
@@ -103,6 +46,8 @@ class NoteManager {
     }
 
     try {
+      const trash = false;
+      const favorite = false;
       const note = new Note({
         title,
         content,
