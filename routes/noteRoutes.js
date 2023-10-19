@@ -11,6 +11,7 @@ import {
   createSerie,
   addNoteToSerie,
   showSerieNotes,
+  setFavorite,
 } from "../controllers/noteControllers.js";
 
 const router = Express.Router();
@@ -20,6 +21,7 @@ router.route("/edit_note/:id").post(getUserInfo, editNote);
 router.route("/user").get(getUserInfo, showNotes);
 router.route("/Fav").post(getUserInfo, showFavNotes);
 router.route("/create_series").post(getUserInfo, createSerie);
+router.route("/set_fav").patch(getUserInfo, setFavorite);
 router.route("/addNote/:id").post(getUserInfo, addNoteToSerie);
 router.route("/series/:id").post(getUserInfo, showSerieNotes);
 

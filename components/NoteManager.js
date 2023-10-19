@@ -80,6 +80,38 @@ class NoteManager {
     }
   }
 
+  async setFavorite(req, response) {
+    const { id } = req.body;
+    try {
+      const note = await Note.findOne({ _id: id, owner: req.user._id });
+      if (!note) {
+        return response.status(404).json({
+          message: "Note not found",
+          status: 404,
+        });
+      }
+
+      if (note.favorite) {
+        note.favorite = false;
+      } else {
+        note.favorite = true;
+      }
+      await note.save();
+      return response.status(200).json({
+        message: "Note updated",
+        status: 200,
+        note,
+      });
+    } catch (error) {
+      console.log(error);
+      return response.status(500).json({
+        message: "Error updating note",
+        status: 500,
+        error,
+      });
+    }
+  }
+
   async editNote(req, res) {
     await check("title")
       .notEmpty()

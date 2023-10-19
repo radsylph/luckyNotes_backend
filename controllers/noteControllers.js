@@ -38,6 +38,10 @@ const showSerieNotes = (req, res) => {
   note.showSerieNotes(req, res);
 };
 
+const setFavorite = (req, res) => {
+  note.setFavorite(req, res);
+};
+
 export {
   test2,
   userInfo,
@@ -48,4 +52,5 @@ export {
   createSerie,
   addNoteToSerie,
   showSerieNotes,
+  setFavorite,
 };
