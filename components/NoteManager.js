@@ -82,7 +82,9 @@ class NoteManager {
         errors: result.array(),
       });
     }
-    const { title, content, SerieId, favorite, trash } = req.body;
+    const { title, content, SerieId } = req.body;
+    const favorite = false;
+    const trash = false;
     const { owner } = req.user._id;
     if (SerieId) {
       const serie = await Serie.findOne({ Name: SerieId });
@@ -105,8 +107,8 @@ class NoteManager {
         title,
         content,
         SerieId,
-        favorite: false,
-        trash: false,
+        favorite,
+        trash,
         owner: req.user._id,
       });
       await note.save();
