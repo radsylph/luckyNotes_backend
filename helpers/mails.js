@@ -87,19 +87,18 @@ const emailRegistro = async (datos) => {
 };
 
 const emailReset = async (datos) => {
-  var transport = nodemailer.createTransport({
-    host: process.env.EMAIL_HOST,
-    port: process.env.EMAIL_PORT,
+  const transport = nodemailer.createTransport({
+    service: "gmail",
     auth: {
-      user: process.env.EMAIL_HOST_USER,
-      pass: process.env.EMAIL_HOST_PASSWORD,
+      user: process.env.APP_USER,
+      pass: process.env.APP_PASSWORD,
     },
   });
 
   const { email, nombre, token } = datos;
   try {
     await transport.sendMail({
-      from: "lo que sea",
+      from: "LuckyNotes@gmail.com",
       to: email,
       subject: "Reset your password",
       html: `<!DOCTYPE html>
