@@ -393,6 +393,69 @@ class SessionManager {
       });
     } catch (error) {}
   }
+
+  async editUser(req, res) {
+    await check("name").notEmpty().withMessage("Name is required").run(req);
+    await check("lastname")
+      .notEmpty()
+      .withMessage("Lastname is required")
+      .run(req);
+    await check("username")
+      .notEmpty()
+      .withMessage("Username is required")
+      .run(req);
+    const result = validationResult(req);
+    if (!result.isEmpty()) {
+      return res.status(400).json({
+        message: "there was these errors",
+        error: result.array(),
+      });
+    }
+    const { name, lastname, username } = req.body;
+    try {
+      const Username = await Usuario.findOne({
+        username: username,
+      }).exec();
+      const myusername = await Usuario.findById(req.user.id).exec();
+      if (Username && Username.username !== myusername.username) {
+        return res.status(400).json({
+          message: "there was these errors",
+          error: [
+            {
+              type: "field",
+              value: username,
+              msg: "the username is already registered",
+              path: "username",
+              location: "body",
+            },
+          ],
+        });
+      }
+      const user = await Usuario.findById(req.user.id).exec();
+      user.name = name;
+      user.lastname = lastname;
+      user.username = username;
+      await user.save();
+      return res.status(200).json({
+        message: "User edited",
+        user: user,
+      });
+    } catch (error) {
+      console.log(error);
+      return res.status(500).json({
+        message: "there was these errors",
+        error: [
+          {
+            type: "server",
+            value: "",
+            msg: "there was an error when editing the user",
+            path: "",
+            location: "",
+          },
+        ],
+      });
+    }
+  }
 }
 
 export { SessionManager };

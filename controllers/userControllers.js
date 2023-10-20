@@ -51,6 +51,10 @@ const getUser = (req, res) => {
   session.getUser(req, res);
 };
 
+const editUser = (req, res) => {
+  session.editUser(req, res);
+};
+
 const pugTest1 = (req, res) => {
   res.render("auth/confirm_account", {
     title: "confirm your account",
@@ -86,4 +90,5 @@ export {
   pugTest2,
   pugTest3,
   getUser,
+  editUser,
 };
