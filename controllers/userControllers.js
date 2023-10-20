@@ -47,6 +47,27 @@ const verifyPassword = (req, res) => {
   session.checkResetPassword(req, res);
 };
 
+const pugTest1 = (req, res) => {
+  res.render("auth/confirm_account", {
+    title: "confirm your account",
+    pagina: "Your account is now confirmed",
+  });
+};
+
+const pugTest2 = (req, res) => {
+  res.render("auth/reset_password", {
+    title: "Reset your password",
+    pagina: "Reset your password",
+  });
+};
+
+const pugTest3 = (req, res) => {
+  res.render("auth/set_new_password", {
+    title: "Reset your password",
+    pagina: "Reset your password",
+  });
+};
+
 export {
   createUser,
   createForm,
@@ -57,4 +78,7 @@ export {
   newPassword,
   verifyPassword,
   login,
+  pugTest1,
+  pugTest2,
+  pugTest3,
 };
