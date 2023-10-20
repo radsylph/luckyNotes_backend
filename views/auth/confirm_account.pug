@@ -1,11 +1,12 @@
 extends ../layout/index
 
 block content
-    div(class="py-5 ")
-        h1(class="text-4xl font-extrabold text-center my-10") Lucky
-            span(class="font-normal text-indigo-500") Notes
-        h2(class="text-center text-2xl font-bold")=pagina 
-    div(class = "bg-white shadow py-8 px-4 rounded-lg max-w-md mx-auto")    
-        p(class= error ? 'bg-red-500 text-white' : 'bg-green-500 uppercase' ).py-2.px-5.rounded-lg.w-full.font-bold.border.border-black.text-center=mensaje
-        if !error
-            a(href="/auth/login" class="text-center font-bold text-sm text-slate-600 uppercase mt-10 block bg-indigo-400 hover:bg-black hover:text-white border border-black rounded") You can Log in
+    div(style="padding-top: 5rem;")
+        h1(style="font-size: 4rem; font-weight: 800; text-align: center; margin-bottom: 10rem;")
+            | Lucky
+            span(style="font-weight: 400; color: #6366F1;") Notes
+        h2(style="font-size: 2rem; font-weight: 800; text-align: center;")=pagina 
+        div(style="background-color: #FFFFFF; box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1); padding: 2rem; border-radius: 0.5rem; max-width: 28rem; margin-left: auto; margin-right: auto; margin-top: 8rem;")
+            p(style="padding: 0.5rem 1rem; border-radius: 0.25rem; font-weight: 700; border: 1px solid #000000; text-align: center; width: 100%;", class= error ? 'bg-red-500 text-white' : 'bg-green-500 uppercase')=mensaje
+            if !error
+                a(style="display: block; text-align: center; font-weight: 700; text-transform: uppercase; font-size: 0.875rem; color: #4B5563; background-color: #6366F1; border: 1px solid #000000; border-radius: 0.25rem; padding: 1rem 0; margin-top: 2.5rem; transition: background-color 0.2s ease-in-out, color 0.2s ease-in-out; text-decoration: none;", href="/auth/login") You can Log in
