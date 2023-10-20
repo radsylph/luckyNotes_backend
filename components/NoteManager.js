@@ -323,6 +323,7 @@ class NoteManager {
 
   async showSerieNotes(req, res) {
     const { SerieId } = req.params;
+
     try {
       const notes = await Note.find({ owner: req.user._id, SerieId });
       if (!notes) {

@@ -25,6 +25,6 @@ router.route("/series").get(getUserInfo, showSeries);
 router.route("/create_series").post(getUserInfo, createSerie);
 router.route("/set_fav/:id").patch(getUserInfo, setFavorite);
 router.route("/addNote/:id").post(getUserInfo, addNoteToSerie); //cambiar a patch
-router.route("/series/:id").get(getUserInfo, showSerieNotes);
+router.route("/series/:SerieId").get(getUserInfo, showSerieNotes);
 
 export default router;
