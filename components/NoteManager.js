@@ -207,12 +207,32 @@ class NoteManager {
     }
   }
 
+  async showSeries(req, res) {
+    try {
+      const series = await Serie.find({ owner: req.user._id });
+      if (!series) {
+        return res.status(404).json({
+          message: "Series not found",
+          status: 404,
+        });
+      }
+      return res.status(200).json({
+        message: "Series found",
+        status: 200,
+        series,
+      });
+    } catch (error) {
+      console.log(error);
+      return res.status(500).json({
+        message: "Error showing series",
+        status: 500,
+        error,
+      });
+    }
+  }
+
   async createSerie(req, res) {
     await check("Name").notEmpty().withMessage("Name is required").run(req);
-    await check("Description")
-      .notEmpty()
-      .withMessage("Description is required")
-      .run(req);
 
     const errors = validationResult(req);
     if (!errors.isEmpty()) {

@@ -30,6 +30,10 @@ const createSerie = (req, res) => {
   note.createSerie(req, res);
 };
 
+const showSeries = (req, res) => {
+  note.showSeries(req, res);
+};
+
 const addNoteToSerie = (req, res) => {
   note.addNoteToSerie(req, res);
 };
@@ -53,4 +57,5 @@ export {
   addNoteToSerie,
   showSerieNotes,
   setFavorite,
+  showSeries,
 };
