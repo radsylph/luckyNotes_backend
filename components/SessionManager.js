@@ -464,13 +464,13 @@ class SessionManager {
       const user = await Usuario.findById(req.user.id).exec();
       const notes = await Note.find({ owner: req.user.id }).exec();
       const series = await Serie.find({ owner: req.user.id }).exec();
-      await notes.forEach(async (note) => {
-        await Note.deleteMany({ owner: req.user.id }).exec();
-      });
-      await series.forEach(async (serie) => {
-        await Serie.deleteMany({ owner: req.user.id }).exec();
-      });
-      await user.deleteOne({ _id: req.user.id }).exec();
+      // await notes.forEach(async (note) => {
+      //   await Note.deleteMany({ owner: req.user.id }).exec();
+      // });
+      // await series.forEach(async (serie) => {
+      //   await Serie.deleteMany({ owner: req.user.id }).exec();
+      // });
+      // await user.deleteOne({ _id: req.user.id }).exec();
       return res.status(200).json({
         message: "User deleted",
       });
