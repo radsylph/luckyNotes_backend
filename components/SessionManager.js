@@ -1,6 +1,6 @@
 import Usuario from "../models/Usuario.js";
 import bcrypt from "bcrypt";
-import Note from "../models/Note.js";
+import Note from "../models/Nota.js";
 import Serie from "../models/Serie.js";
 import { generateToken1, generateJWT } from "../helpers/generateToken.js";
 import { emailRegistro, emailReset } from "../helpers/mails.js";
