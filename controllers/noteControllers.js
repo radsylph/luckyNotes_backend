@@ -46,6 +46,14 @@ const setFavorite = (req, res) => {
   note.setFavorite(req, res);
 };
 
+const deleteNote = (req, res) => {
+  note.deleteNote(req, res);
+};
+
+const deleteSerie = (req, res) => {
+  note.deleteSerie(req, res);
+};
+
 export {
   test2,
   userInfo,
@@ -58,4 +66,6 @@ export {
   showSerieNotes,
   setFavorite,
   showSeries,
+  deleteNote,
+  deleteSerie,
 };

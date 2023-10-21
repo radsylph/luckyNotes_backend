@@ -422,6 +422,74 @@ class NoteManager {
     }
   }
 
+  async deleteNote(req, res) {
+    try {
+      const { id } = req.params;
+      const note = await Note.findOne({ _id: id, owner: req.user._id });
+      if (!note) {
+        return res.status(404).json({
+          message: "Note not found",
+          status: 404,
+        });
+      }
+      if (req.user._id != note.owner) {
+        return res.status(403).json({
+          message: "You are not authorized to delete this note",
+          status: 403,
+        });
+      }
+      await note.delete();
+      return res.status(200).json({
+        message: "Note deleted",
+        status: 200,
+        note,
+      });
+    } catch (error) {
+      console.log(error);
+      return res.status(500).json({
+        message: "Error deleting note",
+        status: 500,
+        error,
+      });
+    }
+  }
+
+  async deleteSerie(req, res) {
+    try {
+      const { id } = req.params;
+      const serie = await Serie.findOne({ _id: id, owner: req.user._id });
+      if (!serie) {
+        return res.status(404).json({
+          message: "Serie not found",
+          status: 404,
+        });
+      }
+      if (req.user._id != serie.owner) {
+        return res.status(403).json({
+          message: "You are not authorized to delete this serie",
+          status: 403,
+        });
+      }
+      const noteSerie = await Note.find({ SerieId: serie.Name });
+      await noteSerie.forEach(async (note) => {
+        await note.delete();
+      });
+      await serie.delete();
+      return res.status(200).json({
+        message: "Serie deleted",
+        status: 200,
+        serie,
+      });
+    } catch (error) {
+      console.log(error);
+      return res.status(500).json({
+        message: "Error deleting serie",
+        status: 500,
+        error,
+      });
+    }
+  }
+
   async test(req, res) {
     return res.status(201).json({
       message: "Note createdasd",
