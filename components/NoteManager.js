@@ -438,7 +438,7 @@ class NoteManager {
           status: 403,
         });
       }
-      await note.delete();
+      await Note.deleteOne({ _id: id, owner: req.user._id }).exec();
       return res.status(200).json({
         message: "Note deleted",
         status: 200,
@@ -470,11 +470,17 @@ class NoteManager {
           status: 403,
         });
       }
-      const noteSerie = await Note.find({ SerieId: serie.Name });
-      await noteSerie.forEach(async (note) => {
-        await note.delete();
+      const noteSerie = await Note.find({
+        SerieId: serie.Name,
+        owner: req.user._id,
       });
-      await serie.delete();
+      await noteSerie.forEach(async (note) => {
+        await Note.deleteMany({
+          SerieId: note.SerieId,
+          owner: req.user._id,
+        }).exec();
+      });
+      await Serie.deleteOne({ _id: id, owner: req.user._id }).exec();
       return res.status(200).json({
         message: "Serie deleted",
         status: 200,
