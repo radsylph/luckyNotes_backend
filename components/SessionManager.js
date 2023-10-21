@@ -1,5 +1,7 @@
 import Usuario from "../models/Usuario.js";
 import bcrypt from "bcrypt";
+import Note from "../models/Note.js";
+import Serie from "../models/Serie.js";
 import { generateToken1, generateJWT } from "../helpers/generateToken.js";
 import { emailRegistro, emailReset } from "../helpers/mails.js";
 import { check, validationResult } from "express-validator";
@@ -460,6 +462,14 @@ class SessionManager {
   async deleteUser(req, res) {
     try {
       const user = await Usuario.findById(req.user.id).exec();
+      const notes = await Note.find({ user: req.user.id }).exec();
+      const series = await Serie.find({ user: req.user.id }).exec();
+      for (let i = 0; i < notes.length; i++) {
+        await notes[i].remove();
+      }
+      for (let i = 0; i < series.length; i++) {
+        await series[i].remove();
+      }
       await user.remove();
       return res.status(200).json({
         message: "User deleted",
