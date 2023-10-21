@@ -456,6 +456,30 @@ class SessionManager {
       });
     }
   }
+
+  async deleteUser(req, res) {
+    try {
+      const user = await Usuario.findById(req.user.id).exec();
+      await user.remove();
+      return res.status(200).json({
+        message: "User deleted",
+      });
+    } catch (error) {
+      console.log(error);
+      return res.status(500).json({
+        message: "there was these errors",
+        error: [
+          {
+            type: "server",
+            value: "",
+            msg: "there was an error when deleting the user",
+            path: "",
+            location: "",
+          },
+        ],
+      });
+    }
+  }
 }
 
 export { SessionManager };

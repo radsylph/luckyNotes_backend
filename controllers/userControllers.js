@@ -55,6 +55,10 @@ const editUser = (req, res) => {
   session.editUser(req, res);
 };
 
+const deleteUser = (req, res) => {
+  session.deleteUser(req, res);
+};
+
 const pugTest1 = (req, res) => {
   res.render("auth/confirm_account", {
     title: "confirm your account",
@@ -91,4 +95,5 @@ export {
   pugTest3,
   getUser,
   editUser,
+  deleteUser,
 };

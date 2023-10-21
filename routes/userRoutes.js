@@ -14,6 +14,7 @@ import {
   pugTest3,
   getUser,
   editUser,
+  deleteUser,
 } from "../controllers/userControllers.js";
 import getUserInfo from "../middlewares/ProtectRutes.js";
 
@@ -27,7 +28,7 @@ router.route("/reset_password").get(formReset).post(resetPassword);
 router.route("/reset_password/:token").get(verifyPassword).post(newPassword);
 router.route("/getUser").get(getUserInfo, getUser);
 router.route("/editUser").put(getUserInfo, editUser);
-
+router.route("/deleteUser").delete(getUserInfo, deleteUser);
 router.get("/pugtest1", pugTest1);
 router.get("/pugtest2", pugTest2);
 router.get("/pugtest3", pugTest3);
